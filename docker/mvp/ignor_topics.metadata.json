@@ -1,0 +1,1 @@
+{"indexes":[{"v":{"$numberInt":"2"},"key":{"_id":{"$numberInt":"1"}},"name":"_id_"},{"v":{"$numberInt":"2"},"unique":true,"key":{"topic":{"$numberInt":"1"}},"name":"topic_1"}],"uuid":"9393903d88ee4025b1ca1a19c502cef0","collectionName":"ignor_topics"}

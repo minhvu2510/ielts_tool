@@ -1,0 +1,1 @@
+{"options":{},"indexes":[{"v":2,"key":{"_id":1},"name":"_id_","ns":"mvp.devote"},{"v":2,"unique":true,"key":{"key":1},"name":"key_1","ns":"mvp.devote"}],"uuid":"f86a2be9f8e24cba87019bfce16d913a"}

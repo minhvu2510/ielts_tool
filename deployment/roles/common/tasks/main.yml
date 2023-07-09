@@ -1,0 +1,36 @@
+- name: create directory code
+  file:
+    path: /srv/dashboard_en/
+    owner: root
+    group: root
+    mode: 0655
+    state: directory
+  tags:
+    - test
+    - telebot
+- name: sync docker
+  synchronize:
+    src={{ inventory_dir }}/../docker
+    dest=/srv/dashboard_en/
+    rsync_path="sudo rsync"
+  become: false
+  tags:
+    - test
+
+- name: sync api
+  synchronize:
+    src={{ inventory_dir }}/../src
+    dest=/srv/dashboard_en/
+    rsync_path="sudo rsync"
+  become: false
+  tags:
+    - test
+
+- name: build container api, fe
+  shell: |
+    cd /srv/dashboard_en/docker/ &&
+    set -a &&
+    . /srv/dashboard_en/docker/.env &&
+    docker-compose up -d --build
+  tags:
+    - test

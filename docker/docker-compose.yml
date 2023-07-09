@@ -1,0 +1,67 @@
+version: '3.4'
+
+services:
+
+  mongodb:
+    container_name: mongodb
+    build:
+      context: ./
+      dockerfile: Dockerfile.mongo
+    ports:
+      - "27017:27017"
+      - "8200:8200"
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+    privileged: true
+    restart: unless-stopped
+  api:
+    container_name: api
+    build:
+      context: ../
+      dockerfile: docker/Dockerfile
+    ports:
+      - "8100:8100"
+    ulimits:
+      nproc: 65535
+      nofile:
+        soft: 20000
+        hard: 40000
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+    environment:
+      - API_PORT=${API_PORT}
+    privileged: true
+    restart: unless-stopped
+  frontend:
+    container_name: frontend_vuejs
+    build:
+      context: ../
+      dockerfile: docker/Dockerfile.nginx
+    ports:
+      - "80:80"
+    ulimits:
+      nproc: 65535
+      nofile:
+        soft: 20000
+        hard: 40000
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+    privileged: true
+    restart: unless-stopped
+  # frontend2:
+  #   container_name: frontend_vuejs
+  #   build:
+  #     context: ../
+  #     dockerfile: docker/Dockerfile.frontend
+  #   ports:
+  #     - "80:80"
+  #   ulimits:
+  #     nproc: 65535
+  #     nofile:
+  #       soft: 20000
+  #       hard: 40000
+  #   volumes:
+  #     - /etc/localtime:/etc/localtime:ro
+  #   privileged: true
+  #   restart: unless-stopped
+

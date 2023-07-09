@@ -1,0 +1,16 @@
+
+FROM mongo
+
+RUN mkdir -p /mvp
+COPY ./mvp /mvp
+
+# Khởi tạo db với file dữ liệu trong mvp
+# COPY ./entrypoint_mongo.sh /entrypoint.sh
+
+# RUN chmod 777 /entrypoint.sh
+# RUN chmod +x /entrypoint.sh
+
+
+# ENTRYPOINT /entrypoint.sh
+
+# CMD mongod
