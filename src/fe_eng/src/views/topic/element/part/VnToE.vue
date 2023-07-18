@@ -139,7 +139,7 @@
         var y = Math.floor((Math.random() * 4) + 0)
         this.answer[y] = this.item.key
         for (const i in this.answer) {
-          console.log('===' + i)
+          console.log('----===' + i)
           if (this.answer[i] === '') {
             var x1 = Math.floor((Math.random() * this.words.length) + 0)
             if (this.answer.indexOf(this.words[x1].key) < 0) {

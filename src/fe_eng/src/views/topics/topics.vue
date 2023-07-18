@@ -30,6 +30,25 @@
               </template>
             </el-table-column>
             <el-table-column
+              label="Avatar"
+              sortable
+              width="250">
+              <template slot-scope="scope">
+                <div v-if="scope.row.edit === false">
+                  <el-image
+                    :src=scope.row.avatar
+                    wi
+                    :lazy="true"
+                    alt="Image"
+                    style="height: 50px;"
+                  ></el-image>
+                </div>
+                <div v-else>
+                  <el-input placeholder="Please input" v-model="scope.row.avatar"></el-input>
+                </div>
+              </template>
+            </el-table-column>
+            <el-table-column
               prop="order"
               sortable
               label="order">
@@ -95,10 +114,13 @@
             </el-table-column>
           </el-table>
         </el-col>
-        <el-dialog title="Add vocabulary" :visible.sync="dialogFormVisible">
+        <el-dialog title="Add new topic" :visible.sync="dialogFormVisible">
           <el-form>
             <el-form-item label="Topic">
               <el-input v-model="ad_topic" clearable></el-input>
+            </el-form-item>
+            <el-form-item label="Avatar">
+              <el-input v-model="ad_avatar" clearable></el-input>
             </el-form-item>
             <el-form-item label="Level">
               <el-input-number style="width: 90px" size="mini" v-model="ad_level" controls-position="right" :min="0" :max="15"></el-input-number>
@@ -135,7 +157,8 @@
         topics: [],
         ad_topic: '',
         ad_level: 12,
-        ad_favorite: 0
+        ad_favorite: 0,
+        ad_avatar: ''
       }
     },
     mounted() {
@@ -159,7 +182,7 @@
         msg.lang = 'en-US'
 
         msg.onend = function(e) {
-          console.log('Finished in ' + event.elapsedTime + ' seconds.')
+          console.log('Finishedddd in ' + event.elapsedTime + ' seconds.')
         }
 
         speechSynthesis.speak(msg)
@@ -176,7 +199,8 @@
           'topic': this.ad_topic,
           'level': this.ad_level,
           'favorite': this.ad_favorite,
-          'idi': this.ad_topic
+          'idi': this.ad_topic,
+          'avatar': this.ad_avatar
         }
         this.$http.post(process.env.TEST_LOCAL + '/topics', newWord)
           .then(function(response) {
@@ -204,7 +228,8 @@
           'level': row.level,
           'favorite': row.favorite,
           'idi': row.idi,
-          'order': row.order
+          'order': row.order,
+          'avatar': row.avatar
         }
         // this.$http.put(process.env.C2C + '/domain', newIp, { headers: { 'Authorization': getToken() }})
         this.$http.put(process.env.TEST_LOCAL + '/topics', newIp)

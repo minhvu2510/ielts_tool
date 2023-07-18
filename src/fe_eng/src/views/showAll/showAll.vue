@@ -25,7 +25,7 @@
                       width="150">
                       <template slot-scope="scope">
                         <div v-if="scope.row.edit === false">
-                          <div v-if="check"> {{(scope.row.key)}} <i @click="pronounce(scope.row.key)" class="el-icon-video-play"></i></div>
+<!--                          <div v-if="check"> {{(scope.row.key)}} <i @click="pronounce(scope.row.key)" class="el-icon-video-play"></i></div>-->
                         </div>
                         <div v-else>
                           <el-input placeholder="Please input" v-model="scope.row.key"></el-input>
@@ -212,6 +212,7 @@
           this.words1 = []
           this.words2 = []
           words = res.data.data
+          console.log('words' + words)
           for (const j in words) {
             words[j]['edit'] = false
           }
@@ -232,13 +233,14 @@
         })
       },
       pronounce(nounce) {
+        console.log(nounce)
         var msg = new SpeechSynthesisUtterance()
         msg.voiceURI = 'native'
         msg.text = nounce
         msg.lang = 'en-US'
 
         msg.onend = function(e) {
-          console.log('Finished in ' + event.elapsedTime + ' seconds.')
+          console.log('Finishedaaa in ' + event.elapsedTime + ' seconds.')
         }
 
         speechSynthesis.speak(msg)

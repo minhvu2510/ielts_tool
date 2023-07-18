@@ -34,10 +34,10 @@
         <el-card class="box-card">
           <el-row>
             <el-col :span="15">
-              <img :src="i.link" class="image">
+              <img :src="i.avatar" class="image">
             </el-col>
             <el-col :span="9">
-              <p class="word" v-for="k in i.word">{{k}}</p>
+              <p class="word" v-for="k in i.word">{{k.key}} - <i @click="playSound(k.audio)" class="el-icon-video-play" style="cursor: pointer"></i></p>
             </el-col>
           </el-row>
           <div style="padding: 0px;">
@@ -184,7 +184,7 @@
       }
     },
     mounted() {
-      this.getramdom()
+      // this.getramdom()
       this.getallTopic()
     },
     methods: {
@@ -211,10 +211,20 @@
             }
           })
       },
+      playSound(sound) {
+        if (sound) {
+          var audio = new Audio(sound)
+          audio.play()
+        }
+      },
       getallTopic() {
         getTopics().then(res => {
           // this.topics = res.data.data
           const words = res.data.data
+          console.log('word' +
+            '' +
+            '' +
+            '' + words)
           for (const j in words) {
             words[j]['edit'] = false
           }
@@ -226,12 +236,15 @@
         this.$http.get(process.env.TEST_LOCAL + '/showexample', { headers: { 'Authorization': 'vudz' }})
           .then(function(response) {
             const words = response.body
+            console.log('words' + words)
+            console.log(words)
+            console.log('this.array' + this.array)
             for (var arr in this.array) {
-              let title = this.array[arr].title.toLowerCase().replace(' ', '_')
+              console.log('arr' + arr)
+              let title = this.array[arr].table.toLowerCase().replace(' ', '_')
+              console.log('+++title+++' + title)
               title = title.replace(' ', '_')
-              console.log('--' + title)
               for (const wor in words) {
-                // console.log('-----' + words[wor].table)
                 if (title === words[wor].table) {
                   for (const item in words[wor].data) {
                     this.array[arr].word.push(words[wor].data[item].key)

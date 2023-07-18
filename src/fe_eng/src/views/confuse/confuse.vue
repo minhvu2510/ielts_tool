@@ -32,7 +32,7 @@
                       <h2>{{item.key}}</h2>
                       <!--<el-progress :percentage="percent" status="success"></el-progress>-->
                       <p>{{count}}</p>
-                      <el-button @click="pronounce(item.key)" type="warning" icon="el-icon-phone-outline" circle></el-button>
+<!--                      <el-button @click="playSound(item.audio)" type="warning" icon="el-icon-phone-outline" circle></el-button>-->
                     </center>
                   </el-col>
                   <el-col :span="16">
@@ -189,11 +189,18 @@
         msg.lang = 'en-US'
 
         msg.onend = function(e) {
-          console.log('Finished in ' + event.elapsedTime + ' seconds.')
+          console.log('Finishedqqq in ' + event.elapsedTime + ' seconds.')
         }
 
         speechSynthesis.speak(msg)
         console.log(nounce)
+      },
+      playSound(sound) {
+        console.log(sound)
+        if (sound) {
+          var audio = new Audio(sound)
+          audio.play()
+        }
       }
     },
     computed: {

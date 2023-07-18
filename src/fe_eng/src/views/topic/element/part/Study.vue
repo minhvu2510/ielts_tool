@@ -25,7 +25,7 @@
                     <center>
                       <h2>{{item.key}}</h2>
                       <p>{{count}}</p>
-                      <el-button @click="pronounce(item.key)" type="warning" icon="el-icon-phone-outline" circle></el-button>
+                      <el-button @click="playSound(item.audio)" type="warning" icon="el-icon-phone-outline"></el-button>
                     </center>
                   </el-col>
                   <el-col :span="16">
@@ -140,7 +140,7 @@
         var y = Math.floor((Math.random() * 4) + 0)
         this.answer[y] = this.item.value
         for (const i in this.answer) {
-          console.log('===' + i)
+          console.log('+++===' + i)
           if (this.answer[i] === '') {
             var x1 = Math.floor((Math.random() * this.words.length) + 0)
             if (this.answer.indexOf(this.words[x1].value) < 0) {
@@ -179,8 +179,11 @@
           }
           this.checkAnser()
         }
-        var msg = new SpeechSynthesisUtterance(this.item.key)
-        window.speechSynthesis.speak(msg)
+        // var msg = new SpeechSynthesisUtterance(this.item.key)
+        // window.speechSynthesis.speak(msg)
+
+        var audio = new Audio(this.item.audio)
+        audio.play()
       },
       startTimer: function() {
         this.timer = setInterval(() => this.countdown(), 1000)
@@ -207,18 +210,24 @@
       countdown: function() {
         this.totalTime--
       },
-      pronounce(nounce) {
-        var msg = new SpeechSynthesisUtterance()
-        msg.voiceURI = 'native'
-        msg.text = nounce
-        msg.lang = 'en-US'
-
-        msg.onend = function(e) {
-          console.log('Finished in ' + event.elapsedTime + ' seconds.')
+      // pronounce(nounce) {
+      //   var msg = new SpeechSynthesisUtterance()
+      //   msg.voiceURI = 'native'
+      //   msg.text = nounce
+      //   msg.lang = 'en-US'
+      //
+      //   msg.onend = function(e) {
+      //     console.log('Finishedee in ' + event.elapsedTime + ' seconds.')
+      //   }
+      //
+      //   speechSynthesis.speak(msg)
+      //   console.log(nounce)
+      // }
+      playSound(sound) {
+        if (sound) {
+          var audio = new Audio(sound)
+          audio.play()
         }
-
-        speechSynthesis.speak(msg)
-        console.log(nounce)
       }
 
     },
