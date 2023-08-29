@@ -185,16 +185,16 @@ def topic():
                 }
                 myMeanings.append(newDict)
             print(myMeanings)
-        info = {
-            "key": data.get('key'),
-            "value": data.get('value'),
-            "level": int(data.get('level')),
-            "phonetic": resultParsed[0].get("phonetic"),
-            "audio": audio,
-            "mean": myMeanings,
-            "v2":  data.get('v2'),
-            "v3": data.get('v3')
-        }
+            info = {
+                "key": data.get('key'),
+                "value": data.get('value'),
+                "level": int(data.get('level')),
+                "phonetic": resultParsed[0].get("phonetic"),
+                "audio": audio,
+                "mean": myMeanings,
+                "v2":  data.get('v2'),
+                "v3": data.get('v3')
+            }
         if (len(str(data.get('key'))) < 1 or len(str(data.get('value'))) < 1):
             info_response = {"status": False,
                              "message": "key or value is null"}
@@ -429,6 +429,86 @@ def difficlut():
         return dumps_json(info_response)
     else:
         return dumps_json({'status': False})
+
+
+@app.route('/ipa', methods=["POST", "GET", "PUT", "DELETE"])
+def ipa():
+    if request.method == 'POST':
+        data = json.loads(request.data)
+        url = "https://api.dictionaryapi.dev/api/v2/entries/en/" + \
+            data.get('word')
+        payload = {}
+        headers = {}
+        response = requests.request("GET", url, headers=headers, data=payload)
+        audio = ""
+        if (response.status_code != 404):
+            resultParsed = eval(response.content)
+            phonetics = resultParsed[0].get("phonetics")
+            phoneticsUs = phonetics[-1]
+            print(phoneticsUs)
+            audio = phoneticsUs.get('audio')
+            print(audio)
+            info = {
+                "word": data.get('word'),
+                "phonetic": data.get('phonetic'),
+                "means": data.get('means'),
+                "spell": data.get('spell'),
+                "typeSpell": data.get('typeSpell'),
+                "level": int(data.get('level')),
+                "audio": audio
+            }
+            info_response = db.insert_document('ipa', info, 'word')
+            print(info_response)
+            return dumps_json(info_response)
+    if request.method == 'PUT':
+        data = json.loads(request.data)
+        idi = data.get('_id')
+        info = {
+            "word": data.get('word'),
+            "phonetic": data.get('phonetic'),
+            "means": data.get('means'),
+            "spell": data.get('spell'),
+            "typeSpell": data.get('typeSpell'),
+            "level": int(data.get('level')),
+            "audio": data.get('audio'),
+        }
+        info_response = db.update_document('ipa', {'_id': ObjectId(idi)}, info)
+        print("-------------", info_response)
+        return dumps_json(info_response)
+    if request.method == 'GET':
+        a = request.args.get('spell')
+        if a != "":
+            words = db.get_document('ipa', {"spell": a}).get("data")
+        else:
+            words = db.get_document('ipa', {}).get("data")
+        info_response = {
+            "status": True,
+            "data": words
+        }
+        return dumps_json(info_response)
+    if request.method == 'DELETE':
+        data = json.loads(request.data)
+        idi = data.get('_id')
+        info_response = db.delete_document('ipa', {'_id': ObjectId(idi)})
+        return dumps_json(info_response)
+
+
+@app.route('/ipaeng', methods=["POST", "GET", "PUT", "DELETE"])
+def ipaeng():
+    if request.method == 'POST':
+        data = json.loads(request.data)
+        info = {
+            "ipa": data.get('ipa'),
+            "spell": data.get('spell'),
+            "type": data.get('type'),
+            "description": data.get('description'),
+            "note": data.get('note'),
+            "level": data.get('level'),
+            "example": data.get('example')
+        }
+        info_response = db.insert_document('ipaeng', info, 'ipa')
+        print(info_response)
+        return dumps_json(info_response)
 
 
 if __name__ == '__main__':

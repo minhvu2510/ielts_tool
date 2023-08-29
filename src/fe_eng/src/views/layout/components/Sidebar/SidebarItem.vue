@@ -8,6 +8,12 @@
             <span slot="title">Dashboard</span>
           </el-menu-item>
         </router-link>
+        <router-link :to="'/ipa'">
+          <el-menu-item index="Ipa">
+            <i class="fa fa-microphone"></i>
+            <span slot="title">Spell</span>
+          </el-menu-item>
+        </router-link>
         <router-link :to="'/topic'">
           <el-menu-item index="Study">
             <i class="fas fa-address-card"></i>

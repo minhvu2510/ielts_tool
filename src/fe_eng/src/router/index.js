@@ -12,6 +12,7 @@ import confuse from '@/views/confuse/confuse'
 import difficult from '@/views/difficult/difficult'
 import topics from '@/views/topics/topics'
 import dashboard from '@/views/dashboard/index'
+import ipa from '@/views/ipa/ipa'
 // import hot_ac from '@/views/Hotlines_ac/Hotlines_ac'
 import loading from '@/views/loading/index'
 import chose from '@/views/chose_en/chose_en'
@@ -100,6 +101,16 @@ export const constantRouterMap = [
     children: [{
       path: '',
       component: topic
+    }]
+  },
+  {
+    path: '/ipa',
+    component: layout,
+    redirect: '',
+    hidden: true,
+    children: [{
+      path: '',
+      component: ipa
     }]
   },
   {
