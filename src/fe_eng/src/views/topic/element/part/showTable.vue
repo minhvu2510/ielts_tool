@@ -163,7 +163,6 @@
                             </el-button>
                           </el-tooltip>
                           <el-tooltip v-if="scope.row.edit === false" class="item" effect="dark" content="Xoá khỏi hệ thống" placement="top-start" :enterable="false">
-                            <!--<el-button type="text"><i class="far fa-edit"></i></el-button>-->
                             <el-button  type="text" plain size="mini" @click="handleDeleteUser(scope.row)">
                               <i class="el-icon-delete"></i>
                             </el-button>
