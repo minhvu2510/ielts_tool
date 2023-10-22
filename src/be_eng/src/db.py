@@ -145,12 +145,9 @@ def get_top_records(table, query):
 
 
 def get_all_topic():
-    query = {}
-    topics = get_all_record('ignor_topics', query)
-    ignore = ['none', 'user', 'ig_topics',
-              'igr_topics', 'igno_topics', 'note', 'tempt']
-    result = [topic for topic in topics if topic['topic'].startswith('Topic')]
-    return result
+    query = {'type': 1}
+    topics = get_all_record('ignore_topics', query)
+    return topics
 
 
 def get_difficult():

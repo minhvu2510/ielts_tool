@@ -169,6 +169,7 @@ def topic():
         audio = ""
         if (response.status_code != 404):
             resultParsed = eval(response.content)
+            print(resultParsed)
             phonetics = resultParsed[0].get("phonetics")
             phoneticsUs = phonetics[-1]
             print(phoneticsUs)
@@ -193,7 +194,8 @@ def topic():
                 "audio": audio,
                 "mean": myMeanings,
                 "v2":  data.get('v2'),
-                "v3": data.get('v3')
+                "v3": data.get('v3'),
+                "sample": data.get('sample'),
             }
         if (len(str(data.get('key'))) < 1 or len(str(data.get('value'))) < 1):
             info_response = {"status": False,
@@ -290,13 +292,13 @@ def extension():
         expert = 0
         vague = 0
         forget = 0
-        for i in k:
-            if (i != 'extention'):
-                total += db.count_document(i)
-                expert += db.count_document(i, {'level': {'$lt': 10}})
-                vague += db.count_document(
-                    i, {'$and': [{'level': {'$gt': 9}}, {'level': {'$lt': 13}}]})
-                forget += db.count_document(i, {'level': {'$gt': 12}})
+        # for i in k:
+        #     if (i != 'extention'):
+        #         total += db.count_document(i)
+        #         expert += db.count_document(i, {'level': {'$lt': 10}})
+        #         vague += db.count_document(
+        #             i, {'$and': [{'level': {'$gt': 9}}, {'level': {'$lt': 13}}]})
+        #         forget += db.count_document(i, {'level': {'$gt': 12}})
         # list_ext_id = db.get_records_top('extention', "level", 1, 1).get("data")
         list_ext_id = db.get_document(
             'extention', {'level': {'$gt': 9}}).get("data")
@@ -349,6 +351,7 @@ def confuse():
 def topics():
     if request.method == 'GET':
         topics = db.get_all_topic()
+        print(topics)
         newlist = sorted(topics, key=lambda k: k['order'])
         for it in newlist:
             print(it)
@@ -369,16 +372,16 @@ def topics():
         return dumps_json(info_response)
     if request.method == 'POST':
         data = json.loads(request.data)
-        # 'idi': 'expand01', 'topic': 'expand01', 'level': 12, 'favorite': 0
         info = {
             "idi": data.get('idi'),
             "topic": data.get('topic'),
             "level": int(data.get('level')),
             "favorite": int(data.get('favorite')),
-            "order": db.count_document('ignor_topics', {}),
+            "order": db.count_document('ignore_topics', {}),
             "avatar": data.get('avatar'),
+            "type": 1,
         }
-        info_response = db.insert_document('ignor_topics', info, 'topic')
+        info_response = db.insert_document('ignore_topics', info, 'topic')
         print(info_response)
         return dumps_json(info_response)
     if request.method == 'PUT':
@@ -392,7 +395,7 @@ def topics():
             "order": int(data.get('order')),
             "avatar": data.get('avatar')
         }
-        info_response = db.update_document('ignor_topics', {'idi': idi}, info)
+        info_response = db.update_document('ignore_topics', {'idi': idi}, info)
         return dumps_json(info_response)
         # m = db.insert_document('igno_topics', info, 'topic')
     if request.method == 'DELETE':
@@ -401,7 +404,7 @@ def topics():
         # 'idi': 'expand01', 'topic': 'expand01', 'level': 12, 'favorite': 0
         idi = data.get('idi')
         print('--------', idi)
-        info_response = db.delete_document('ignor_topics', {'idi': idi})
+        info_response = db.delete_document('ignore_topics', {'idi': idi})
         return dumps_json(info_response)
     else:
         return dumps_json({'status': False})
@@ -509,7 +512,13 @@ def ipaeng():
         info_response = db.insert_document('ipaeng', info, 'ipa')
         print(info_response)
         return dumps_json(info_response)
-
+    if request.method == 'GET':
+      words = db.get_document('ipaeng', {}).get("data")
+      info_response = {
+        "status": True,
+        "data": words
+      }
+      return dumps_json(info_response)
 
 if __name__ == '__main__':
     try:

@@ -2,8 +2,8 @@ version: '3.4'
 
 services:
 
-  mongodb:
-    container_name: mongodb
+  mongo:
+    container_name: mongo
     build:
       context: ./
       dockerfile: Dockerfile.mongo
@@ -12,6 +12,7 @@ services:
       - "8200:8200"
     volumes:
       - /etc/localtime:/etc/localtime:ro
+      - ./mongodb_data:/data/db
     privileged: true
     restart: unless-stopped
   api:
@@ -33,7 +34,7 @@ services:
     privileged: true
     restart: unless-stopped
   frontend:
-    container_name: frontend_vuejs
+    container_name: fe_ieltss
     build:
       context: ../
       dockerfile: docker/Dockerfile.nginx

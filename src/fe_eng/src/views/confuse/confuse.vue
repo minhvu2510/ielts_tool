@@ -13,7 +13,7 @@
                   <input type="text" v-if="edit" v-model="userTime">
                   <!--<el-tag type="success">{{ minutes }}:{{ seconds }}</el-tag>-->
                   <!--<el-button @click="startTimer()" type="primary">Start</el-button>-->
-                  <el-button v-if="check_start"  @click="check = !check" type="success" plain>Show answer</el-button>
+                  <el-button v-if="check_start"  @click="check = !check" type="success" plain>Show answer1</el-button>
                   <!--<el-button v-if="check_start" @click="test = !test" type="warning" plain>Hide vn</el-button>-->
                   <!--<el-button @click="editTimer()" type="warning" plain>Hidesss vn</el-button>-->
                 </div>

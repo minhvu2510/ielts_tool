@@ -35,7 +35,18 @@
                         width="150">
                         <template slot-scope="scope">
                           <div v-if="scope.row.edit === false">
-                            <div v-if="check"> {{(scope.row.key)}} - {{(scope.row.phonetic)}}<button class="btn btn-primary btn-sm" @click.prevent="playSound(scope.row.audio)"><span class="el-icon-video-play"></span></button></div>
+                              <el-row :gutter="20">
+                                  <div v-if="check"> {{(scope.row.key)}} - {{(scope.row.phonetic)}}</div>
+                                  <el-popover
+                                          placement="top-start"
+                                          width="200"
+                                          trigger="hover"
+                                          :content="scope.row.sample">
+                                      <el-button size="mini" slot="reference" type="warning" icon="el-icon-star-off" circle></el-button>
+                                  </el-popover>
+                                <button class="btn btn-primary btn-sm" @click.prevent="playSound(scope.row.audio)"><span class="el-icon-video-play"></span></button>
+                              </el-row>
+
 <!--                            <div v-if="check"> {{(scope.row.key)}} <button class="btn btn-primary btn-sm" @click.prevent="playSound(scope.row.audio)"><span class="el-icon-video-play"></span></button></div>-->
                           </div>
                           <div v-else>
@@ -71,14 +82,32 @@
                         </template>
                       </el-table-column>
                       <el-table-column
-                        label="synonyms"
-                        width="180">
+                        label="VN"
+                         width="150">
                         <template slot-scope="scope">
                           <div v-if="scope.row.edit === false">
-                            <!--                            <div v-if="check1">{{(scope.row.mean)}}</div>-->
-                            <div v-for="i in scope.row.mean" :key="i.key">
-                              <div v-for="j in i.synonyms" :key="j.key" style="display: inline-block;margin-right: 10px;"> {{j}} </div>
-                            </div>
+                            <div v-if="check1">{{(scope.row.value)}}</div>
+                          </div>
+                          <div v-else>
+                            <el-input placeholder="Please input" v-model="scope.row.value"></el-input>
+                          </div>
+                        </template>
+                      </el-table-column>
+                      <el-table-column
+                        label="synonyms"
+                        width="120">
+                        <template slot-scope="scope">
+                          <div v-if="scope.row.edit === false">
+                            <el-popover>
+                              <template slot="reference">
+                                <button>Synonyms</button>
+                              </template>
+                              <div>
+                                <div v-for="i in scope.row.mean" :key="i.key">
+                                  <div v-for="j in i.synonyms" :key="j.key" style="display: inline-block; margin-right: 10px;">{{ j }} | </div>
+                                </div>
+                              </div>
+                            </el-popover>
                           </div>
                           <div v-else>
                             <el-input placeholder="Please input" v-model="scope.row.phonetic"></el-input>
@@ -90,25 +119,19 @@
                         width="180">
                         <template slot-scope="scope">
                           <div v-if="scope.row.edit === false">
-                            <!--                            <div v-if="check1">{{(scope.row.mean)}}</div>-->
-                            <div v-for="i in scope.row.mean" :key="i.key">
-                              <div v-for="j in i.antonyms" :key="j.key" style="display: inline-block;margin-right: 10px;"> {{j}} </div>
-                            </div>
+                            <el-popover>
+                              <template slot="reference">
+                                <button>Antonyms</button>
+                              </template>
+                              <div>
+                                <div v-for="i in scope.row.mean" :key="i.key">
+                                  <div v-for="j in i.antonyms" :key="j.key" style="display: inline-block;margin-right: 10px;"> {{j}} | </div>
+                                </div>
+                              </div>
+                            </el-popover>
                           </div>
                           <div v-else>
                             <el-input placeholder="Please input" v-model="scope.row.antonyms"></el-input>
-                          </div>
-                        </template>
-                      </el-table-column>
-                      <el-table-column
-                        label="VN"
-                         width="150">
-                        <template slot-scope="scope">
-                          <div v-if="scope.row.edit === false">
-                            <div v-if="check1">{{(scope.row.value)}}</div>
-                          </div>
-                          <div v-else>
-                            <el-input placeholder="Please input" v-model="scope.row.value"></el-input>
                           </div>
                         </template>
                       </el-table-column>
@@ -157,14 +180,20 @@
                       <el-table-column
                         prop="key"
                         label="EN"
-                        width="150">
+                        width="180">
                         <template slot-scope="scope">
                           <div v-if="scope.row.edit === false">
-                            <div v-if="check"> {{(scope.row.key)}} - {{(scope.row.phonetic)}} <button class="btn btn-primary btn-sm" @click.prevent="playSound(scope.row.audio)"><span class="el-icon-video-play"></span></button></div>
-<!--                            <div v-if="check"> {{(scope.row.key)}} <button class="btn btn-primary btn-sm" @click.prevent="playSound('http://soundbible.com/mp3/Elevator Ding-SoundBible.com-685385892.mp3')"><span class="el-icon-video-play"></span></button></div>-->
-                            <div>
-<!--                              <button class="btn btn-primary btn-sm" @click.prevent="playSound('http://soundbible.com/mp3/Elevator Ding-SoundBible.com-685385892.mp3')"><span class="el-icon-video-play"></span></button>-->
-                            </div>
+                              <el-row :gutter="20">
+                                <div v-if="check"> {{(scope.row.key)}} - {{(scope.row.phonetic)}}</div>
+                                <el-popover
+                                        placement="top-start"
+                                        width="200"
+                                        trigger="hover"
+                                        :content="scope.row.sample">
+                                    <el-button size="mini" slot="reference" type="warning" icon="el-icon-star-off" circle></el-button>
+                                </el-popover>
+                                <button class="btn btn-primary btn-sm" @click.prevent="playSound(scope.row.audio)"><span class="el-icon-video-play"></span></button>
+                            </el-row>
                           </div>
                           <div v-else>
                             <el-input placeholder="Please input" v-model="scope.row.key"></el-input>
@@ -199,36 +228,7 @@
                           </div>
                         </template>
                       </el-table-column>
-                      <el-table-column
-                        label="synonyms"
-                        width="180">
-                        <template slot-scope="scope">
-                          <div v-if="scope.row.edit === false">
-                            <!--                            <div v-if="check1">{{(scope.row.mean)}}</div>-->
-                            <div v-for="i in scope.row.mean" :key="i.key">
-                              <div v-for="j in i.synonyms" :key="j.key" style="display: inline-block;margin-right: 10px;"> {{j}} </div>
-                            </div>
-                          </div>
-                          <div v-else>
-                            <el-input placeholder="Please input" v-model="scope.row.phonetic"></el-input>
-                          </div>
-                        </template>
-                      </el-table-column>
-                      <el-table-column
-                        label="antonyms"
-                        width="180">
-                        <template slot-scope="scope">
-                          <div v-if="scope.row.edit === false">
-                            <!--                            <div v-if="check1">{{(scope.row.mean)}}</div>-->
-                            <div v-for="i in scope.row.mean" :key="i.key">
-                              <div v-for="j in i.antonyms" :key="j.key" style="display: inline-block;margin-right: 10px;"> {{j}} </div>
-                            </div>
-                          </div>
-                          <div v-else>
-                            <el-input placeholder="Please input" v-model="scope.row.antonyms"></el-input>
-                          </div>
-                        </template>
-                      </el-table-column>
+
                       <el-table-column
                         prop="value"
                         label="VN"
@@ -239,6 +239,50 @@
                           </div>
                           <div v-else>
                             <el-input placeholder="Please input" v-model="scope.row.value"></el-input>
+                          </div>
+                        </template>
+                      </el-table-column>
+                      <el-table-column
+                        label="synonyms"
+                        width="180">
+                        <template slot-scope="scope">
+                          <div v-if="scope.row.edit === false">
+                            <div v-if="scope.row.edit === false">
+                              <el-popover>
+                                <template slot="reference">
+                                  <button>Synonyms</button>
+                                </template>
+                                <div>
+                                  <div v-for="i in scope.row.mean" :key="i.key">
+                                    <div v-for="j in i.synonyms" :key="j.key" style="display: inline-block; margin-right: 10px;">{{ j }} | </div>
+                                  </div>
+                                </div>
+                              </el-popover>
+                            </div>
+                          </div>
+                          <div v-else>
+                            <el-input placeholder="Please input" v-model="scope.row.phonetic"></el-input>
+                          </div>
+                        </template>
+                      </el-table-column>
+                      <el-table-column
+                        label="antonyms"
+                        width="120">
+                        <template slot-scope="scope">
+                          <div v-if="scope.row.edit === false">
+                            <el-popover>
+                              <template slot="reference">
+                                <button>Antonyms</button>
+                              </template>
+                              <div>
+                                <div v-for="i in scope.row.mean" :key="i.key">
+                                  <div v-for="j in i.antonyms" :key="j.key" style="display: inline-block;margin-right: 10px;"> {{j}} | </div>
+                                </div>
+                              </div>
+                            </el-popover>
+                          </div>
+                          <div v-else>
+                            <el-input placeholder="Please input" v-model="scope.row.antonyms"></el-input>
                           </div>
                         </template>
                       </el-table-column>
@@ -283,7 +327,7 @@
             </el-col>
           </el-row>
         </div>
-      <el-dialog title="Add vocabulary" :visible.sync="dialogFormVisible">
+      <el-dialog title="Add vocabulary:" :visible.sync="dialogFormVisible">
         <el-form>
           <el-form-item label="EN">
             <el-input v-model="en" clearable></el-input>
@@ -291,6 +335,9 @@
           <el-form-item label="VN">
             <el-input @keyup.native.enter="addVoca" v-model="vn" clearable></el-input>
           </el-form-item>
+            <el-form-item label="Sample">
+                <el-input @keyup.native.enter="addVoca" v-model="sample" clearable></el-input>
+            </el-form-item>
           <el-form-item label="Level">
             <el-rate
               v-model="level"
@@ -320,6 +367,7 @@
         level2: 1,
         en: '',
         vn: '',
+        sample: '',
         words1: [],
         words2: [],
         check: true,
@@ -389,6 +437,7 @@
         const newWord = {
           'key': this.en,
           'value': this.vn,
+          'sample': this.sample,
           'level': this.level,
           'table': this.$route.params.nameTopic
         }
