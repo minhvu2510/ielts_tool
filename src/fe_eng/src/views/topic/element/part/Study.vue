@@ -24,6 +24,7 @@
                   <el-col :span="8">
                     <center>
                       <h2>{{item.key}}</h2>
+                      <p>{{item.phonetic}}</p>
                       <p>{{count}}</p>
                       <el-button @click="playSound(item.audio)" type="warning" icon="el-icon-phone-outline"></el-button>
                     </center>

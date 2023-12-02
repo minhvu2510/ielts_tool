@@ -15,6 +15,8 @@ npm run dev
 # build for test environment
 npm run build:sit
 
+docker-compose up -d --build frontend
+
 # build for production environment
 DEPLOY_PATH=https://yourappurl.com npm run build:prod
 ```

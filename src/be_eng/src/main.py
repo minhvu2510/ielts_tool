@@ -171,9 +171,9 @@ def topic():
             resultParsed = eval(response.content)
             print(resultParsed)
             phonetics = resultParsed[0].get("phonetics")
-            phoneticsUs = phonetics[-1]
-            print(phoneticsUs)
-            audio = phoneticsUs.get('audio')
+            if len(phonetics) > 0:
+              phoneticsUs = phonetics[-1]
+              audio = phoneticsUs.get('audio')
             print(audio)
             meanings = resultParsed[0].get("meanings")
             for mean in meanings:

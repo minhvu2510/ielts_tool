@@ -37,17 +37,23 @@
                           <div v-if="scope.row.edit === false">
                               <el-row :gutter="20">
                                   <div v-if="check"> {{(scope.row.key)}} - {{(scope.row.phonetic)}}</div>
-                                  <el-popover
-                                          placement="top-start"
-                                          width="200"
-                                          trigger="hover"
-                                          :content="scope.row.sample">
+                                  <el-popover>
+                                    <template slot="reference">
                                       <el-button size="mini" slot="reference" type="warning" icon="el-icon-star-off" circle></el-button>
+                                    </template>
+                                    <div>
+                                      <div>{{scope.row.sample}}</div>
+                                    </div>
                                   </el-popover>
+<!--                                  <el-popover-->
+<!--                                          placement="top-start"-->
+<!--                                          width="200"-->
+<!--                                          trigger="hover"-->
+<!--                                          :content="scope.row.sample">-->
+<!--                                      <el-button size="mini" slot="reference" type="warning" icon="el-icon-star-off" circle></el-button>-->
+<!--                                  </el-popover>-->
                                 <button class="btn btn-primary btn-sm" @click.prevent="playSound(scope.row.audio)"><span class="el-icon-video-play"></span></button>
                               </el-row>
-
-<!--                            <div v-if="check"> {{(scope.row.key)}} <button class="btn btn-primary btn-sm" @click.prevent="playSound(scope.row.audio)"><span class="el-icon-video-play"></span></button></div>-->
                           </div>
                           <div v-else>
                             <el-input placeholder="Please input" v-model="scope.row.key"></el-input>
@@ -116,7 +122,7 @@
                       </el-table-column>
                       <el-table-column
                         label="antonyms"
-                        width="180">
+                        width="120">
                         <template slot-scope="scope">
                           <div v-if="scope.row.edit === false">
                             <el-popover>
@@ -184,12 +190,13 @@
                           <div v-if="scope.row.edit === false">
                               <el-row :gutter="20">
                                 <div v-if="check"> {{(scope.row.key)}} - {{(scope.row.phonetic)}}</div>
-                                <el-popover
-                                        placement="top-start"
-                                        width="200"
-                                        trigger="hover"
-                                        :content="scope.row.sample">
+                                <el-popover>
+                                  <template slot="reference">
                                     <el-button size="mini" slot="reference" type="warning" icon="el-icon-star-off" circle></el-button>
+                                  </template>
+                                  <div>
+                                    <div>{{scope.row.sample}}</div>
+                                  </div>
                                 </el-popover>
                                 <button class="btn btn-primary btn-sm" @click.prevent="playSound(scope.row.audio)"><span class="el-icon-video-play"></span></button>
                             </el-row>
@@ -243,7 +250,7 @@
                       </el-table-column>
                       <el-table-column
                         label="synonyms"
-                        width="180">
+                        width="120">
                         <template slot-scope="scope">
                           <div v-if="scope.row.edit === false">
                             <div v-if="scope.row.edit === false">
@@ -326,7 +333,7 @@
             </el-col>
           </el-row>
         </div>
-      <el-dialog title="Add vocabulary:" :visible.sync="dialogFormVisible">
+      <el-dialog :close-on-click-modal=false title="Add vocabulary:" :visible.sync="dialogFormVisible">
         <el-form>
           <el-form-item label="EN">
             <el-input v-model="en" clearable></el-input>
