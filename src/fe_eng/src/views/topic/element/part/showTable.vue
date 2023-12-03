@@ -362,7 +362,8 @@
     <!--<el-button @click="addVoca()">Cancel</el-button>-->
   </div>
 </template>
-
+<script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
   export default {
     name: 'showTable',

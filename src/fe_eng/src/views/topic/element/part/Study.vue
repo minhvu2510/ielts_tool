@@ -8,6 +8,8 @@
               <div slot="header" class="clearfix" style="position: relative;">
                 <span style="font-weight: bold; font-size: 20px">Topic {{this.$route.params.nameTopic}}</span>
                 <div style="float: right">
+
+<!--                  <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>-->
                   <input type="text" v-if="edit" v-model="userTime">
                   <el-tag type="success">{{ minutes }}:{{ seconds }}</el-tag>
                   <el-button @click="checkAnser()" type="primary">Start</el-button>
@@ -47,8 +49,14 @@
                 </el-row>
               </div>
               <div v-else>
+                <div>
+                  <el-button @click="startPlayback">Start</el-button>
+                  <el-button @click="pause">Pause</el-button>
+                  <audio ref="audioPlayer" :src="words[currentTrackIndex].audio" @ended="playNext"></audio>
+                  <div>{{words[this.currentTrackIndex].key}} - {{words[this.currentTrackIndex].phonetic}}</div>
+                </div>
                 <center>
-                  <img src="../../../../assets/tt.jpg" class="image">
+<!--                  <img src="../../../../assets/tt.jpg" class="image">-->
                   <h3 class="test" style="font-family: 'Merriweather', serif" :class="{'test2': test}">code by vunm</h3>
                 </center>
               </div>
@@ -65,6 +73,8 @@
     name: 'Study',
     data() {
       return {
+        isPlaying: false,
+        currentTrackIndex: 0,
         test: true,
         show: false,
         radio: '',
@@ -89,11 +99,42 @@
       // this.getramdom()
     },
     methods: {
+      startPlayback() {
+        console.log(this.words)
+        if (this.words.length > 0) {
+          this.isPlaying = true;
+          this.playCurrentTrack();
+        }
+      },
+      playCurrentTrack() {
+        this.$refs.audioPlayer.src = this.words[this.currentTrackIndex].audio;
+        this.$refs.audioPlayer.addEventListener('canplay', () => {
+          this.$refs.audioPlayer.play();
+        }, { once: true }); // { once: true } đảm bảo sự kiện chỉ được gọi một lần
+        this.$refs.audioPlayer.addEventListener('timeupdate7', this.playNext);
+      },
+      playNext() {
+        if (this.isPlaying) {
+          this.currentTrackIndex = (this.currentTrackIndex + 1);
+          this.playCurrentTrack();
+        }
+      },
+      pause() {
+        if (this.isPlaying === true) {
+          this.isPlaying = false
+        } else {
+          this.isPlaying = true
+          this.playNext();
+        }
+      },
       getdata() {
         this.$http.get(process.env.TEST_LOCAL + '/preview', { headers: { 'Authorization': 'vudz' }, params: { table: this.$route.params.nameTopic, level: 1 }})
           .then(function(response) {
             this.words = response.body.data
+            console.log("================")
             console.log(this.words)
+            // this.words[this.currentTrackIndex]
+            // this.currentTrack = this.words[this.currentTrackIndex]
             // this.item = this.words[Math.floor(Math.random() * this.words.length)]
           })
       },
@@ -240,7 +281,11 @@
       seconds: function() {
         const seconds = this.totalTime - (this.minutes * 60)
         return this.padTime(seconds)
-      }
+      },
+      // currentTrack: function() {
+      //   console.log(this.words)
+      //   return this.words[this.currentTrackIndex].audio;
+      // },
     }
   }
 </script>

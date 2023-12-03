@@ -355,7 +355,7 @@ def topics():
         newlist = sorted(topics, key=lambda k: k['order'])
         for it in newlist:
             print(it)
-            topic = it.get('topic').lower()
+            topic = it.get('topic').lower().replace(" ", "_")
             len_col = db.count_document(topic)
             dataIntable = db.get_records_top(
                 topic, "level", 1, (len_col - 12) if len_col > 12 else 0).get('data')
