@@ -28,3 +28,4 @@ traitlets==4.3.3
 uuid0==0.2.7
 wcwidth==0.2.5
 Werkzeug==1.0.1
+requests
