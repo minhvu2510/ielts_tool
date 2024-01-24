@@ -70,6 +70,13 @@ export function getDifficult() {
     method: 'get'
   })
 }
+
+export function getDailyVocab() {
+  return request({
+    url: '/daily-vocab',
+    method: 'get'
+  })
+}
 export function generateNew(params) {
   return request({
     url: '/difficult',

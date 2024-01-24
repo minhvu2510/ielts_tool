@@ -32,6 +32,12 @@
             <span slot="title">Top difficult</span>
           </el-menu-item>
         </router-link>
+        <router-link :to="'/daily-vocab'">
+          <el-menu-item index="DailyVocab">
+            <i class="fa fa-adjust"></i>
+            <span slot="title">DailyVocab</span>
+          </el-menu-item>
+        </router-link>
         <router-link :to="'/confuse'">
           <el-menu-item index="confuse">
             <i class="fas fa-mortar-pestle"></i>

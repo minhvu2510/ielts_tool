@@ -519,7 +519,27 @@ def ipaeng():
         "data": words
       }
       return dumps_json(info_response)
-
+@app.route('/daily-vocab', methods=["POST", "GET", "PUT", "DELETE"])
+def DailyVocab():
+    if request.method == 'GET':
+      topics = db.get_document('ignore_topics', {}).get("data")
+      result = []
+      for topic in topics:
+        print(topic['topic'])
+        words =  db.get_document(topic['topic'].lower().replace(" ","_"), {}).get("data")
+        print(words)
+        if len(words) > 5:
+          random_items = random.sample(words, 5)
+          for item in random_items:
+            itemType = [str(d['type']) for d in item['mean']]
+            itemType = ', '.join(itemType)
+            tempt = {'key': item['key'], 'value': item['value'], 'audio': item['audio'],'sample': item['sample'], 'phonetic': item['phonetic'], 'type': itemType}
+            result.append(tempt)
+      info_response = {
+        # "status": True,
+        "data": result
+      }
+      return dumps_json(info_response)
 if __name__ == '__main__':
     try:
         port = int(sys.argv[1])

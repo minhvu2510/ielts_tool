@@ -10,6 +10,7 @@ import topic from '@/views/topic/topic'
 import topic_element from '@/views/topic/element/index'
 import confuse from '@/views/confuse/confuse'
 import difficult from '@/views/difficult/difficult'
+import dailyVocab from '@/views/daily_vocab/dailyVocab'
 import topics from '@/views/topics/topics'
 import dashboard from '@/views/dashboard/index'
 import ipa from '@/views/ipa/element/index'
@@ -173,6 +174,16 @@ export const constantRouterMap = [
       component: getall
     }]
   },
+  {
+    path: '/daily-vocab',
+    component: layout,
+    redirect: '',
+    hidden: true,
+    children: [{
+      path: '',
+      component: dailyVocab
+    }]
+  },
   // {
   //   path: '/hotline_account/:id',
   //   component: layout,
@@ -183,6 +194,7 @@ export const constantRouterMap = [
   //     component: hot_ac
   //   }]
   // },
+
   {
     path: '',
     component: layout,
